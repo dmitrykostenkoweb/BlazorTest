@@ -2,8 +2,33 @@
 
 <h1>Kostenko Dmytro</h1>
 <h2>Nr albumu: 112540</h2>
-<p>Nie udało mi się uruchomić dotnet na komputerze.🤷‍♂️</p>
-<code> error NU1101: Microsoft.AspNetCore.Components.WebAssembly package could not be found. There are no packages with this identifier in the following package sources: Microsoft Visual Studio Offline Packages</code>
+<h3>Todo (@todos.Count(todo => !todo.IsDone))</h3>
+<ul>
+    @foreach (var todo in todos)
+    {
+        <li>
+            <input type="checkbox" @bind="todo.IsDone" />
+            <input type="text" @bind="todo.Title" />
+        </li>
+    }
+</ul>
 
+<input type="text" placeholder="todo title" @bind="newTodo" />
+<button type="button" @onclick="AddTodo">Add Todo</button>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@code {
+    private IList<TodoItem> todos = new List<TodoItem>();
+    private string newTodo;
+    private void AddTodo()
+    {
+        if (!string.IsNullOrEmpty(newTodo))
+        {
+            todos.Add(new TodoItem()
+            {
+                Title = newTodo
+            });
+            newTodo = "";
+        }
+    }
+}
+
